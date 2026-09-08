@@ -1,5 +1,5 @@
 # Stage 1: Build SAGIR CODE BOX
-FROM openjdk:11-jdk AS builder
+FROM eclipse-temurin:11-jdk AS builder
 RUN apt-get update && apt-get install -y ant git
 WORKDIR /src
 COPY . .
