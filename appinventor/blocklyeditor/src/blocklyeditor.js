@@ -17,6 +17,20 @@ goog.provide('AI.Blockly.BlocklyEditor');
 
 // App Inventor extensions to Blockly
 goog.require('AI.Blockly');
+// === Sagir Builder - Monaco Loader ===
+(function(){
+  if (window.monaco) return;
+  var script = document.createElement('script');
+  script.src = 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.min.js';
+  script.onload = function() {
+    require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs' }});
+    require(['vs/editor/editor.main'], function() {
+      console.log('Monaco Loaded - Sagir Builder Ready!');
+      window.MonacoLoaded = true;
+    });
+  };
+  document.head.appendChild(script);
+})();
 goog.require('AI.Blockly.Backpack');
 goog.require('AI.Blockly.BlockSvg')
 goog.require('AI.Blockly.ComponentDatabase');
