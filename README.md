@@ -275,3 +275,5 @@ For better performance, consider using the manual instructions above.
 ## Need Help?
 
 Join [our community](https://community.appinventor.mit.edu/).
+
+Sagir Build Enabled
