@@ -1,0 +1,45 @@
+name: Build MIT PRO - 300MB APK + CODE BOX
+on:
+  workflow_dispatch:
+  push:
+    branches: [ master, main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Sagir Pro Fork
+        uses: actions/checkout@v4
+
+      - name: Setup Java 11
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      - name: SAGIR PRO PATCH - 300MB APK + Unlimited
+        run: |
+          echo "Applying Sagir Pro 300MB Patch..."
+          # AIA Upload Limit 30MB -> 300MB
+          find appinventor -type f -name "*.java" -exec sed -i 's/30 \* 1024 \* 1024/300 * 1024 * 1024/g' {} \; || true
+          find appinventor -type f -name "*.java" -exec sed -i 's/10 \* 1024 \* 1024/300 * 1024 * 1024/g' {} \; || true
+          # APK Build Limit 32MB -> 300MB (Main)
+          find appinventor -type f -name "*.java" -exec sed -i 's/31457280/314572800/g' {} \; || true
+          find appinventor -type f -name "*.java" -exec sed -i 's/33554432/314572800/g' {} \; || true
+          find appinventor -type f -name "*.java" -exec sed -i 's/MAX_APK_SIZE/MAX_APK_SIZE_OLD/g' {} \; || true
+          echo "Patch Done - Final APK Size Now 300MB!"
+
+      - name: Build MIT Pro Server
+        run: |
+          cd appinventor
+          ant MakeAuthKey
+          ant -Dskip.tests=true
+
+      - name: Upload Sagir Pro APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Sagir-Pro-MIT-300MB-CODE-BOX
+          path: |
+            appinventor/build/
+            appinventor/buildserver/build/
+          retention-days: 30
