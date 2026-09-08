@@ -1208,3 +1208,21 @@ top.document.addEventListener('mousedown', function(e) {
     Blockly.hideChaff();
   }
 }, false);
+
+// === Sagir Builder - Code Paste System ===
+goog.require('AI.Blockly.CodePasteSystem');
+console.log('Sagir Builder Code System Loaded');
+
+// Add CODE tab button
+window.openSagirCodePanel = function() {
+  var panelDiv = document.createElement('div');
+  panelDiv.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;background:#1e1e1e;';
+  document.body.appendChild(panelDiv);
+  var panel = new CodePastePanel({switchToBlocksTab: function(){}});
+  panel.render(panelDiv);
+  var close = document.createElement('button');
+  close.innerText = 'X Close';
+  close.style.cssText = 'position:absolute;top:10px;right:10px;background:red;color:white;padding:8px 12px;border:none;cursor:pointer;z-index:10000;';
+  close.onclick = function(){ document.body.removeChild(panelDiv); };
+  panelDiv.appendChild(close);
+};
